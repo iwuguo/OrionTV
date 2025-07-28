@@ -26,7 +26,9 @@ jobs:
         run: npm install -g eas-cli
 
       - name: Login to EAS
-        run: eas login --token ${{ secrets.OrionTV }}
+        run: eas login
+        env: # <-- 新增 env 部分
+        EXPO_TOKEN: ${{ secrets.OrionTV }} # <-- 将 Token 通过环境变量传递
 
       - name: Trigger EAS Build
         run: eas build --platform ios --profile production --non-interactive
