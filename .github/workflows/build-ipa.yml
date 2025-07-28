@@ -3,11 +3,13 @@ name: EAS Build iOS
 on:
   push:
     branches:
-      - master # 当代码推送到 main 分支时触发
+      - master
 
 jobs:
   build:
-    runs-on: ubuntu-latest # 或者 macOS-latest
+    runs-on: ubuntu-latest
+    env:
+      EXPO_TOKEN: ${{ secrets.OrionTV }} # ✅ 设置在这里，全局可用
 
     steps:
       - name: Checkout repository
@@ -25,10 +27,7 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
-      - name: Login to EAS
-        run: eas login
-        env: # <-- 新增 env 部分
-          EXPO_TOKEN: ${{ secrets.OrionTV }} # <-- 将 Token 通过环境变量传递 
+      # ❌ 删除 Login to EAS 步骤
 
       - name: Trigger EAS Build
         run: eas build --platform ios --profile production --non-interactive
